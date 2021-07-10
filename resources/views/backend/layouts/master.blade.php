@@ -29,5 +29,4 @@
     <!-- page container area end -->
    @include('backend.layouts.partials.scripts')
 </body>
-
 </html>
