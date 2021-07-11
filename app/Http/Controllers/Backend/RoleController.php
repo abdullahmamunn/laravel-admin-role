@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use App\User;
 class RoleController extends Controller
 {
     /**
@@ -16,7 +16,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all()->pluck('name');
+        $roles = Role::all();
         return view('backend.pages.roles.index',compact('roles'));
     }
 
@@ -25,12 +25,12 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
     public function create()
     {
-        $permissions = Permission::all();
-        return view('backend.pages.roles.create',compact('permissions'));
+        $group_name = User::groupname();
+        return view('backend.pages.roles.create',compact('group_name'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -76,7 +76,9 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::findById($id);
+        $group_name = User::groupname();
+        return view('backend.pages.roles.edit',compact('group_name','role'));
     }
 
     /**

@@ -42,10 +42,10 @@
                             @foreach($roles as $role)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$role}}</td>
+                                <td>{{$role->name}}</td>
                                 <td>
-                                    <a href="">Edit</a>
-                                    <a href="">Delete</a>
+                                    <a href="{{route('roles.edit',$role->id)}}" class="btn btn-success">Edit</a>
+                                    <a href="" class="btn btn-danger">Delete</a>
                                 </td>
                                 <td></td>
                             </tr>

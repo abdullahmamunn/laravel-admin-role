@@ -6,6 +6,7 @@
     <title>@yield('title', 'Admin Role Management')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('backend.layouts.partials.styles')
+    @yield('styles')
 </head>
 <body>
     <div id="preloader">
@@ -28,5 +29,6 @@
     </div>
     <!-- page container area end -->
    @include('backend.layouts.partials.scripts')
+   @yield('scripts')
 </body>
 </html>

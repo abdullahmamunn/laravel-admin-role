@@ -16,7 +16,7 @@ Admin role create
             <div class="breadcrumbs-area clearfix">
                 <h4 class="page-title pull-left">Dashboard</h4>
                 <ul class="breadcrumbs pull-left">
-                    <li><a href="{{route('roles.create')}}">Admin Role Create</a></li>
+                    <li><a href="{{route('roles.edit',$role->id)}}">{{$role->name}} Edit</a></li>
                     <li><span>Dashboard</span></li>
                 </ul>
             </div>
@@ -30,12 +30,12 @@ Admin role create
 	<div class="col-md-10">
 	 <div class="card">
 	 	<div class="card-body">
-	 	<h4 class="text-center">Create New Role</h4>
-	 	<form action="{{route('roles.store')}}" method="post">
+	 	<h4 class="text-center">Edit {{$role->name}} Role</h4>
+	 	<form action="{{route('roles.update',$role->id)}}" method="post">
 			@csrf
 			<div class="form-group">
 			    <label for="exampleInputEmail1">Add Role</label>
-			    <input type="text" class="form-control" name="name" id="exampleInputName" aria-describedby="roleHelp" placeholder="Enter role">
+			    <input type="text" class="form-control" name="name" value="{{$role->name}}" id="exampleInputName" aria-describedby="roleHelp" placeholder="Enter role">
 			    @error('name')
 				    <div class="alert alert-danger">{{ $message }}</div>
 				@enderror
@@ -64,7 +64,7 @@ Admin role create
 		            	@endphp
 		            	@foreach($permissions as $permission)
 			                <div class="custom-control custom-checkbox">
-			                    <input type="checkbox" class="custom-control-input" name="permissions[]" id="checkPermission{{$permission->id}}" value="{{$permission->name}}">
+			                    <input type="checkbox" class="custom-control-input" name="permissions[]" {{$role->hasPermissionTo($permission->name) ? 'checked' : ''}} id="checkPermission{{$permission->id}}" value="{{$permission->name}}">
 			                    <label class="custom-control-label" for="checkPermission{{$permission->id}}">{{$permission->name}}</label>
 			                </div>
 			                @php
