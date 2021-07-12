@@ -32,7 +32,8 @@ Admin role create
 	 	<div class="card-body">
 	 	<h4 class="text-center">Edit {{$role->name}} Role</h4>
 	 	<form action="{{route('roles.update',$role->id)}}" method="post">
-			@csrf
+	        @method('PUT')
+	        @csrf
 			<div class="form-group">
 			    <label for="exampleInputEmail1">Add Role</label>
 			    <input type="text" class="form-control" name="name" value="{{$role->name}}" id="exampleInputName" aria-describedby="roleHelp" placeholder="Enter role">
@@ -42,26 +43,25 @@ Admin role create
 				<br>
 				<label for="exampleInputEmail1">Add Permissions</label>
 				<div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkAll" value="1">
+                    <input type="checkbox" class="custom-control-input" id="checkAll" value="1" {{ App\User::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="checkAll">All Check</label>
 	            </div>
 	            <hr>
 	          
 	            @foreach($group_name as $group)
 	            <div class="row">
+	            		@php
+	                       // $permissions = \Spatie\Permission\Models\Permission::where('group_name', $group->name)->get();
+		            	    $permissions = App\User::permissionsByGroupName($group->name);
+		            	@endphp
 	            	<div class="col-3">
 		            	<div class="custom-control custom-checkbox">
-		                    <input type="checkbox" class="custom-control-input" id="{{ $group->name }}-management" value="{{$group->name}}" onclick="checkPermissionByGroup('role-{{ $group->name }}-management-checkbox', this)">
+		                    <input type="checkbox" class="custom-control-input" id="{{ $group->name }}-management" value="{{$group->name}}" onclick="checkPermissionByGroup('role-{{ $group->name }}-management-checkbox', this)" {{ App\User::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
 		                    <label class="custom-control-label" for="{{ $group->name }}-management">{{ $group->name }}</label>
 		                </div>
 	            	</div>
 	            	
 	            	<div class="col-9 role-{{ $group->name }}-management-checkbox">
-		            	@php
-	                       // $permissions = \Spatie\Permission\Models\Permission::where('group_name', $group->name)->get();
-		            	    $permissions = App\User::permissionsByGroupName($group->name);
-		            	  
-		            	@endphp
 		            	@foreach($permissions as $permission)
 			                <div class="custom-control custom-checkbox">
 			                    <input type="checkbox" class="custom-control-input" name="permissions[]" {{$role->hasPermissionTo($permission->name) ? 'checked' : ''}} id="checkPermission{{$permission->id}}" value="{{$permission->name}}">

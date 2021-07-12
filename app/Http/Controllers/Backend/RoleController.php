@@ -50,10 +50,6 @@ class RoleController extends Controller
          if (!empty($permissions)) {
             $role->syncPermissions($permissions);
          }
-         // $new_role = new Role();
-         // $new_role->name = $request->name;
-         // $new_role->save();
-         // return redirect('roles.index');
          return redirect('admin/roles');
     }
 
@@ -78,7 +74,8 @@ class RoleController extends Controller
     {
         $role = Role::findById($id);
         $group_name = User::groupname();
-        return view('backend.pages.roles.edit',compact('group_name','role'));
+        $permissions = Permission::all();
+        return view('backend.pages.roles.edit',compact('group_name','role','permissions'));
     }
 
     /**
@@ -90,7 +87,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         
+         // return $request->all();
+         $request->validate([
+            'name' => 'required|min:5|max:15',
+         ],[
+            'name.required' => 'Please give a role name'
+         ]);
+         $role = Role::find($id);
+         $permissions = $request->permissions;
+         if (!empty($permissions)) {
+            $role->syncPermissions($permissions);
+         }
+         return back();
     }
 
     /**
