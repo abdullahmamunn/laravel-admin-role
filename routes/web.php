@@ -23,5 +23,6 @@ Auth::routes();
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 	Route::get('/dashboard', 'Backend\DashboardController@index');
 	Route::resource('roles', 'Backend\RoleController');
+	Route::resource('email','Backend\EmailConfigController');
 });
 
