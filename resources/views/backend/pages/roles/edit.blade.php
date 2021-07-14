@@ -43,7 +43,7 @@ Admin role create
 				<br>
 				<label for="exampleInputEmail1">Add Permissions</label>
 				<div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkAll" value="1" {{ App\User::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
+                    <input type="checkbox" class="custom-control-input" id="checkAll" value="1" {{ App\User::roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="checkAll">All Check</label>
 	            </div>
 	            <hr>
@@ -64,7 +64,7 @@ Admin role create
 	            	<div class="col-9 role-{{ $group->name }}-management-checkbox">
 		            	@foreach($permissions as $permission)
 			                <div class="custom-control custom-checkbox">
-			                    <input type="checkbox" class="custom-control-input" name="permissions[]" {{$role->hasPermissionTo($permission->name) ? 'checked' : ''}} id="checkPermission{{$permission->id}}" value="{{$permission->name}}">
+			                    <input type="checkbox" class="custom-control-input" name="permissions[]" onclick="checkSinglePermission('role-{{ $group->name }}-management-checkbox', '{{ $group->name }}-management', {{ count($permissions) }})" {{$role->hasPermissionTo($permission->name) ? 'checked' : ''}} id="checkPermission{{$permission->id}}" value="{{$permission->name}}">
 			                    <label class="custom-control-label" for="checkPermission{{$permission->id}}">{{$permission->name}}</label>
 			                </div>
 			                @php
@@ -103,6 +103,34 @@ Admin role create
              }else{
                  classCheckBox.prop('checked', false);
              }
+            implementAllChecked();
 	}
+	 function checkSinglePermission(groupClassName, groupID, countTotalPermission) {
+
+            const classCheckbox = $('.'+groupClassName+ ' input');
+            const groupIDCheckBox = $("#"+groupID);
+     
+            // if there is any occurance where something is not selected then make selected = false
+            if($('.'+groupClassName+ ' input:checked').length == countTotalPermission){
+                groupIDCheckBox.prop('checked', true);
+            }else{
+                groupIDCheckBox.prop('checked', false);
+            }
+           implementAllChecked();
+         }
+         function implementAllChecked() {
+             var countPermissions = {{ count($all_permissions) }};
+             var countPermissionGroups = {{ count($group_name) }};
+             // console.log(countPermissionGroups,countPermissions);
+             // console.log((countPermissions + countPermissionGroups));
+             // console.log($('input[type="checkbox"]:checked').length);
+             if($('input[type="checkbox"]:checked').length >= (countPermissions + countPermissionGroups)){
+                $("#checkAll").prop('checked', true);
+            }else{
+                $("#checkAll").prop('checked', false);
+            }
+         }
+
+
 </script>
 @endsection

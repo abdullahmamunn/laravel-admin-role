@@ -74,8 +74,8 @@ class RoleController extends Controller
     {
         $role = Role::findById($id);
         $group_name = User::groupname();
-        $permissions = Permission::all();
-        return view('backend.pages.roles.edit',compact('group_name','role','permissions'));
+        $all_permissions = Permission::all();
+        return view('backend.pages.roles.edit',compact('group_name','role','all_permissions'));
     }
 
     /**
