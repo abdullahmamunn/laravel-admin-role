@@ -11,7 +11,7 @@
             <div class="breadcrumbs-area clearfix">
                 <h4 class="page-title pull-left">Dashboard</h4>
                 <ul class="breadcrumbs pull-left">
-                    <li><a href="{{route('roles.index')}}">Admin Role</a></li>
+                    <li><a href="{{route('users.index')}}">User List</a></li>
                     <li><span>Dashboard</span></li>
                 </ul>
             </div>
@@ -27,7 +27,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title d-inline">Data Table Dark</h4>
-                <a href="{{route('roles.create')}}" class="header-title float-right">Add new Role</a>
+                <a href="{{route('users.create')}}" class="header-title float-right">Add new User</a>
                  @if(Session::has('success'))
                   <div class="alert alert-success">
                     <p>{{Session::get('success')}}</p>
@@ -43,22 +43,26 @@
                         <thead class="text-capitalize">
                             <tr>
                                 <th>SL</th>
-                                <th>Role Name</th>
+                                <th>User Name</th>
+                                <th>User Email</th>
+                                <th>User Roles</th>
                                 <th>Action</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($roles as $role)
+                            @foreach($users as $user)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$role->name}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
+                                <td></td>
                                 <td>
-                                    <a href="{{route('roles.edit',$role->id)}}" class="btn btn-success">Edit</a>
-                                     <a class="btn btn-warning" href="{{ route('roles.destroy', $role->id) }}"
-                                        onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">Delete
+                                    <a href="{{route('users.edit',$user->id)}}" class="btn btn-success">Edit</a>
+                                     <a class="btn btn-warning" href="{{ route('users.destroy', $user->id) }}"
+                                        onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">Delete
                                     </a>
-                                    <form id="delete-form-{{ $role->id }}" action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-none">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-none">
                                         @method('DELETE')
                                         @csrf
                                     </form>

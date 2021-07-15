@@ -50,7 +50,10 @@ class RoleController extends Controller
          if (!empty($permissions)) {
             $role->syncPermissions($permissions);
          }
-         return redirect('admin/roles');
+         // session()->flush('success','New Role Created Successfully');
+         session()->flash('success', 'Role has been created');
+         return back();
+         // return redirect('admin/roles');
     }
 
     /**
@@ -97,8 +100,11 @@ class RoleController extends Controller
          $role = Role::find($id);
          $permissions = $request->permissions;
          if (!empty($permissions)) {
+            $role->name = $request->name;
+            $role->save();
             $role->syncPermissions($permissions);
          }
+        session()->flash('success', 'Role has been updated');
          return back();
     }
 
@@ -110,6 +116,11 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::find($id);
+        if(!is_null($role)){
+            $role->delete();
+        }
+         session()->flash('success', 'Role has been Deleted');
+         return back();
     }
 }

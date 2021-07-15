@@ -21,8 +21,9 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
-	Route::get('/dashboard', 'Backend\DashboardController@index');
+	Route::get('/dashboard', 'Backend\DashboardController@index')->name('admin.dashboard');
 	Route::resource('roles', 'Backend\RoleController');
 	Route::resource('email','Backend\EmailConfigController');
+	Route::resource('users','Backend\UserController');
 });
 

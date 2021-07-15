@@ -2,7 +2,7 @@
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('backend/assets/images/icon/logo.png') }}" alt="logo"></a>
+                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('backend/assets/images/icon/logo.png') }}" alt="logo"></a>
                 </div>
             </div>
             <div class="main-menu">
@@ -12,18 +12,23 @@
                             <li class="active">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
                                 <ul class="collapse">
-                                    <li class="active"><a href="{{route('roles.create')}}">Add New Role</a></li>
-                                    <li><a href="{{route('roles.index')}}">Role List</a></li>
-                                    <li><a href="index3.html">SEO dashboard</a></li>
+                                    <li class="{{ Route::is('admin.dashboard') ? 'active' : ''}}"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>Sidebar
-                                        Types
-                                    </span></a>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>
+                                    <span>Roles and Permissions</span>
+                                </a>
                                 <ul class="collapse">
-                                    <li><a href="index.html">Left Sidebar</a></li>
-                                    <li><a href="index3-horizontalmenu.html">Horizontal Sidebar</a></li>
+                                    <li class="{{ Route::is('roles.create') || Route::is('roles.edit') ? 'active' : ''}}"><a href="{{route('roles.create')}}">Add New Role</a></li>
+                                    <li class="{{ Route::is('roles.index') ? 'active' : ''}}"><a href="{{route('roles.index')}}">Role List</a></li>
+                                </ul>
+                            </li>
+                             <li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Manage Users</span></a>
+                                <ul class="collapse">
+                                    <li><a href="{{route('users.create')}}">Add user</a></li>
+                                    <li><a href="{{route('users.index')}}">User list</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -31,7 +36,6 @@
                                 <ul class="collapse">
                                     <li><a href="{{route('email.create')}}">Add Email</a></li>
                                     <li><a href="{{route('email.index')}}">Email list</a></li>
-                                    <li><a href="piechart.html">pie chart</a></li>
                                 </ul>
                             </li>
                         </ul>
