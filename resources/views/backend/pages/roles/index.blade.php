@@ -42,10 +42,11 @@
                     <table id="dataTable3" class="text-center">
                         <thead class="text-capitalize">
                             <tr>
-                                <th>SL</th>
-                                <th>Role Name</th>
-                                <th>Action</th>
-                                <th></th>
+                                <th style="width: 5%">SL</th>
+                                <th style="width: 15%">Role Name</th>
+                                <th style="width: 60%">Permissions</th>
+                                <th style="width: 20%">Action</th>
+                                <th>Permissions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +54,12 @@
                             <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$role->name}}</td>
+                                <td>
+                                    @foreach($role->permissions as $permission)
+                                          <span class="badge badge-info mr-1">{{$permission->name}}</span>
+                                    @endforeach
+                                </td>
+
                                 <td>
                                     <a href="{{route('roles.edit',$role->id)}}" class="btn btn-success">Edit</a>
                                      <a class="btn btn-warning" href="{{ route('roles.destroy', $role->id) }}"
@@ -63,7 +70,11 @@
                                         @csrf
                                     </form>
                                 </td>
-                                <td></td>
+                                <td>
+                                    @foreach($role->permissions as $permission)
+                                          <span class="badge badge-info mr-1">{{$permission->name}}</span>
+                                    @endforeach
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -56,7 +56,11 @@
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
-                                <td></td>
+                                <td>
+                                    @foreach($user->roles as $role)
+                                      <span class="badge badge-primary">{{ $role->name }}</span>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <a href="{{route('users.edit',$user->id)}}" class="btn btn-success">Edit</a>
                                      <a class="btn btn-warning" href="{{ route('users.destroy', $user->id) }}"

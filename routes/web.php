@@ -20,7 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'admin'], function(){
+	  // Login Routes
+    Route::get('/login', 'Backend\Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/login/submit', 'Backend\Auth\LoginController@login')->name('admin.login.submit');
+
+    // // Logout Routes
+    Route::post('/logout/submit', 'Backend\Auth\LoginController@logout')->name('admin.logout');
+
+    // // Forget Password Routes
+    Route::get('/password/reset', 'Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
+    // Route::post('/password/reset/submit', 'Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
+
 	Route::get('/dashboard', 'Backend\DashboardController@index')->name('admin.dashboard');
 	Route::resource('roles', 'Backend\RoleController');
 	Route::resource('email','Backend\EmailConfigController');

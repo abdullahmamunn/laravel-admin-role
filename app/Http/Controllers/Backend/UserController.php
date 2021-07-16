@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\User;
@@ -48,7 +49,7 @@ class UserController extends Controller
          $user = new User();
          $user->name = $request->name;
          $user->email = $request->email;
-         $user->password = $request->password;
+         $user->password = Hash::make($request->password);
          $user->save();
          if($request->roles){
             $user->assignRole($request->roles);
@@ -90,7 +91,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+           'name' => 'required|max:30|min:5',
+           'email' => 'required|max:30|email|unique:users,email,'.$id,
+           'password' => 'nullable|min:6|confirmed',
+        ]);
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if($request->password)
+        {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        $user->roles()->detach();
+        $user->assignRole($request->roles);
+        session()->flash('success','User data Updated Successfully!');
+        return back();
     }
 
     /**

@@ -31,6 +31,11 @@ Admin role create
 	<div class="col-md-10">
 	 <div class="card">
 	 	<div class="card-body">
+            @if(Session::has('success'))
+              <div class="alert alert-success">
+                 {{Session::get('success')}}
+              </div>
+            @endif
 	 	<h4 class="text-center">Edit "{{$user->name}}" Role</h4>
         <form action="{{route('users.update',$user->id)}}" method="post">
             @method('PUT')
